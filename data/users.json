@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "email": "gusgml042933@gmail.com",
+      "password": "Abcd1234!",
+      "nickname": "wayne",
+      "profileImagePath": "/public/image/profile/1.jpg"
+    },
+    {
+      "email": "pqrs1234@gmail.com",
+      "password": "Abcd1234!",
+      "nickname": "임맹구",
+      "profileImage": "/image/áá¢á¼áá®.jpeg"
+    },
+    {
+      "email": "gusgml042933@gmail.com",
+      "password": "Abcd1234!",
+      "nickname": "임맹구",
+      "profileImage": "/image/áá¢á¼áá®.jpeg"
+    },
+    {
+      "email": "abcd1234@gmail.com",
+      "password": "Abcd1234!",
+      "nickname": "임맹구",
+      "profileImage": "/image/áá¢á¼áá®.jpeg"
+    }
+  ]
+}

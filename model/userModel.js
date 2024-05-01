@@ -57,12 +57,12 @@ function addUser(newUser) {
   let usersData = JSON.parse(userData);
 
   // users 키가 없을 경우 빈 배열로 초기화
-  if (!usersData.users) {
-    usersData.users = [];
-  }
+  // if (!usersData.users) {
+  //   usersData.users = [];
+  // }
 
   // 새로운 유저 추가
-  newUser.profileImage = "/image/" + path.basename(newUser.profileImage); //이미지 경로 명시
+  // newUser.profileImage = "/image/" + path.basename(newUser.profileImage); //이미지 경로 명시
   usersData.users.push(newUser);
 
   // JSON 파일에 쓰기
@@ -84,4 +84,26 @@ function checklogin(email, password) {
   }
 }
 
-export { isDuplicateEmail, isDuplicateNickname, addUser, checklogin };
+function modifyUser(reUser) {
+  const userData = fs.readFileSync(usersFilePath, "utf8");
+
+  let usersData = JSON.parse(userData);
+
+  for (let i = 0; i < usersData.users.length; i++) {
+    if (reUser.user_id == usersData.users[i].user_id) {
+      usersData.users[i].nickname = reUser.nickname;
+      usersData.users[i].profileImage = reUser.profileImage;
+      usersData.users[i].updated_at = reUser.updated_at;
+    }
+  }
+
+  fs.writeFileSync(usersFilePath, JSON.stringify(usersData));
+}
+
+export {
+  isDuplicateEmail,
+  isDuplicateNickname,
+  addUser,
+  checklogin,
+  modifyUser,
+};

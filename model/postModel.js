@@ -34,9 +34,7 @@ function modifyPost(rePost) {
   for (let i = 0; i < postsData.posts.length; i++) {
     if (rePost.post_id == postsData.posts[i].post_id) {
       postsData.posts[i].post_title = rePost.post_title;
-      console.log(postsData.posts[i].post_title);
       postsData.posts[i].post_content = rePost.post_content;
-      console.log(postsData.posts[i].post_content);
     }
   }
 
@@ -74,9 +72,6 @@ function removeComment(deleteComment) {
   const commentData = fs.readFileSync(commentsFilePath, "utf8");
 
   let commentsData = JSON.parse(commentData);
-
-  console.log("deleteComment.comment_id---", deleteComment.comment_id);
-  console.log("deleteComment.deleted_at---", deleteComment.deleted_at);
 
   for (let i = 0; i < commentsData.comments.length; i++) {
     if (deleteComment.comment_id == commentsData.comments[i].comment_id) {

@@ -1,8 +1,12 @@
+import fs from "fs";
+import path from "path";
 import { isDuplicateEmail } from "../model/userModel.js";
 import { isDuplicateNickname } from "../model/userModel.js";
 import { addUser } from "../model/userModel.js";
 import { checklogin } from "../model/userModel.js";
-import multer from "multer";
+import { modifyUser } from "../model/userModel.js";
+const __dirname = path.resolve();
+const usersFilePath = path.join(__dirname, "data/users.json");
 
 function checkEmailDuplicate(req, res) {
   const checkEmail = req.query.email;
@@ -18,23 +22,40 @@ function checkNicknameDuplicate(req, res) {
   res.json({ isDuplicate: checkInputNickname });
 }
 
-const imageUpload = multer({
-  storage: multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, "image/"); // 이미지를 저장할 디렉토리를 지정
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.originalname); // 파일명을 변경하지 않고 그대로 유지
-    },
-  }),
-});
+// const upload = multer({
+//   storage: multer.diskStorage({
+//     destination: function (req, file, cb) {
+//       cb(null, "image/"); // 이미지를 저장할 디렉토리를 지정
+//     },
+//     filename: function (req, file, cb) {
+//       cb(null, file.originalname); // 파일명을 변경하지 않고 그대로 유지
+//     },
+//   }),
+// });
+
+function getUserId() {
+  const userData = fs.readFileSync(usersFilePath);
+  const users = JSON.parse(userData).users;
+
+  // 만약 데이터 배열이 비어 있다면 0을 반환
+  if (users.length === 0) {
+    return 1; // 데이터 배열이 비어있는 경우, 첫 번째 게시물의 user_id를 1로 설정
+  }
+
+  const lastUserId = users[users.length - 1].user_id;
+  return lastUserId + 1;
+}
 
 function createUser(req, res) {
   const newUser = {
+    user_id: getUserId(),
     email: req.body.email,
     password: req.body.password,
     nickname: req.body.nickname,
-    profileImage: req.file.path,
+    profileImage: req.body.profileImage,
+    created_at: new Date().toISOString(), // 현재 시간으로 설정
+    updated_at: new Date().toISOString(),
+    deleted_at: null,
   };
 
   addUser(newUser);
@@ -55,10 +76,40 @@ function login(req, res) {
   }
 }
 
+function userList(req, res) {
+  const userId = req.params.userId;
+
+  const userDetailData = fs.readFileSync(usersFilePath);
+
+  const userDetails = JSON.parse(userDetailData).users;
+
+  const getUserDetail = userDetails.find((user) => user.user_id == userId);
+
+  res.json({ getUserDetail });
+}
+
+function userUpdate(req, res) {
+  const userId = req.params.userId;
+
+  const reUser = {
+    user_id: userId,
+    nickname: req.body.nickname,
+    profileImage: req.body.profileImage,
+    updated_at: new Date().toISOString(),
+  };
+
+  modifyUser(reUser);
+
+  res
+    .status(200)
+    .json({ message: "회원정보 수정이 성공적으로 완료되었습니다." });
+}
+
 export {
   checkEmailDuplicate,
   checkNicknameDuplicate,
   createUser,
-  imageUpload,
   login,
+  userUpdate,
+  userList,
 };

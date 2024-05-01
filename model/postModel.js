@@ -35,6 +35,7 @@ function modifyPost(rePost) {
     if (rePost.post_id == postsData.posts[i].post_id) {
       postsData.posts[i].post_title = rePost.post_title;
       postsData.posts[i].post_content = rePost.post_content;
+      postsData.posts[i].file_id = rePost.file_id;
     }
   }
 

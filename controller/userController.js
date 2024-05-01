@@ -22,17 +22,6 @@ function checkNicknameDuplicate(req, res) {
   res.json({ isDuplicate: checkInputNickname });
 }
 
-// const upload = multer({
-//   storage: multer.diskStorage({
-//     destination: function (req, file, cb) {
-//       cb(null, "image/"); // 이미지를 저장할 디렉토리를 지정
-//     },
-//     filename: function (req, file, cb) {
-//       cb(null, file.originalname); // 파일명을 변경하지 않고 그대로 유지
-//     },
-//   }),
-// });
-
 function getUserId() {
   const userData = fs.readFileSync(usersFilePath);
   const users = JSON.parse(userData).users;

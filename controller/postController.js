@@ -9,7 +9,6 @@ import { removePost } from "../model/postModel.js";
 const __dirname = path.resolve();
 const postsFilePath = path.join(__dirname, "data/posts.json");
 const commentsFilePath = path.join(__dirname, "data/post_comments.json");
-import multer from "multer";
 
 function postList(req, res) {
   const postData = fs.readFileSync(postsFilePath);
@@ -44,17 +43,6 @@ function postComment(req, res) {
   res.json({ getComment });
 }
 
-const imageUpload = multer({
-  storage: multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, "image/"); // 이미지를 저장할 디렉토리를 지정
-    },
-    filename: function (req, file, cb) {
-      cb(null, file.originalname); // 파일명을 변경하지 않고 그대로 유지
-    },
-  }),
-});
-
 function getPostId() {
   const postData = fs.readFileSync(postsFilePath);
   const posts = JSON.parse(postData).posts;
@@ -75,7 +63,7 @@ function newPost(req, res) {
     post_title: req.body.title,
     post_content: req.body.content,
     nickname: "임맹구",
-    file_id: req.file.path,
+    file_id: req.body.file,
     user_id: 1,
     created_at: new Date().toISOString(), // 현재 시간으로 설정
     updated_at: new Date().toISOString(),
@@ -98,7 +86,7 @@ function postUpdate(req, res) {
     post_id: postNum,
     post_title: req.body.title,
     post_content: req.body.content,
-    file_id: req.file.path,
+    file_id: req.body.file,
     updated_at: new Date().toISOString(),
   };
 
@@ -174,7 +162,6 @@ export {
   postDetail,
   postComment,
   newPost,
-  imageUpload,
   postUpdate,
   newComment,
   commentUpdate,

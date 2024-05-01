@@ -56,13 +56,6 @@ function addUser(newUser) {
   // JSON 파싱
   let usersData = JSON.parse(userData);
 
-  // users 키가 없을 경우 빈 배열로 초기화
-  // if (!usersData.users) {
-  //   usersData.users = [];
-  // }
-
-  // 새로운 유저 추가
-  // newUser.profileImage = "/image/" + path.basename(newUser.profileImage); //이미지 경로 명시
   usersData.users.push(newUser);
 
   // JSON 파일에 쓰기

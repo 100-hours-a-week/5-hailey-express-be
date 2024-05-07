@@ -36,13 +36,14 @@ function getUserId() {
 }
 
 function createUser(req, res) {
+  const { email, password, nickname, profileImage } = req.body;
   const newUser = {
     user_id: getUserId(),
-    email: req.body.email,
-    password: req.body.password,
-    nickname: req.body.nickname,
-    profileImage: req.body.profileImage,
-    created_at: new Date().toISOString(), // 현재 시간으로 설정
+    email,
+    password,
+    nickname,
+    profileImage,
+    created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
     deleted_at: null,
   };
@@ -80,10 +81,11 @@ function userList(req, res) {
 function userUpdate(req, res) {
   const userId = req.params.userId;
 
+  const { nickname, profileImage } = req.body;
   const reUser = {
     user_id: userId,
-    nickname: req.body.nickname,
-    profileImage: req.body.profileImage,
+    nickname,
+    profileImage,
     updated_at: new Date().toISOString(),
   };
 

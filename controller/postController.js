@@ -58,14 +58,15 @@ function getPostId() {
 
 function newPost(req, res) {
   const postId = getPostId();
+  const { title, content, file } = req.body;
   const newPost = {
     post_id: postId,
-    post_title: req.body.title,
-    post_content: req.body.content,
+    post_title: title,
+    post_content: content,
     nickname: "임맹구",
-    file_id: req.body.file,
+    file_id: file,
     user_id: 1,
-    created_at: new Date().toISOString(), // 현재 시간으로 설정
+    created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
     deleted_at: null,
     like: 0,
@@ -82,11 +83,12 @@ function newPost(req, res) {
 function postUpdate(req, res) {
   const postNum = req.params.postNum;
 
+  const { title, content, file } = req.body;
   const rePost = {
     post_id: postNum,
-    post_title: req.body.title,
-    post_content: req.body.content,
-    file_id: req.body.file,
+    post_title: title,
+    post_content: content,
+    file_id: file,
     updated_at: new Date().toISOString(),
   };
 
@@ -125,9 +127,10 @@ function newComment(req, res) {
 }
 
 function commentUpdate(req, res) {
+  const { comment_id, content } = req.body;
   const reComment = {
-    comment_id: req.body.comment_id,
-    comment_content: req.body.content,
+    comment_id,
+    comment_content: content,
   };
 
   modifyComment(reComment);

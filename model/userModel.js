@@ -82,13 +82,13 @@ function modifyUser(reUser) {
 
   let usersData = JSON.parse(userData);
 
-  for (let i = 0; i < usersData.users.length; i++) {
-    if (reUser.user_id == usersData.users[i].user_id) {
-      usersData.users[i].nickname = reUser.nickname;
-      usersData.users[i].profileImage = reUser.profileImage;
-      usersData.users[i].updated_at = reUser.updated_at;
+  usersData.users.forEach((user) => {
+    if (reUser.user_id === user.user_id) {
+      user.nickname = reUser.nickname;
+      user.profileImage = reUser.profileImage;
+      user.updated_at = reUser.updated_at;
     }
-  }
+  });
 
   fs.writeFileSync(usersFilePath, JSON.stringify(usersData));
 }

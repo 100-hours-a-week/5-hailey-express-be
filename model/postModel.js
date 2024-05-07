@@ -31,13 +31,13 @@ function modifyPost(rePost) {
 
   let postsData = JSON.parse(postData);
 
-  for (let i = 0; i < postsData.posts.length; i++) {
-    if (rePost.post_id == postsData.posts[i].post_id) {
-      postsData.posts[i].post_title = rePost.post_title;
-      postsData.posts[i].post_content = rePost.post_content;
-      postsData.posts[i].file_id = rePost.file_id;
+  postsData.posts.forEach((post) => {
+    if (rePost.post_id === post.post_id) {
+      post.post_title = rePost.post_title;
+      post.post_content = rePost.post_content;
+      post.file_id = rePost.file_id;
     }
-  }
+  });
 
   fs.writeFileSync(postFilePath, JSON.stringify(postsData));
 }
@@ -60,11 +60,11 @@ function modifyComment(reComment) {
 
   let commentsData = JSON.parse(commentData);
 
-  for (let i = 0; i < commentsData.comments.length; i++) {
-    if (reComment.comment_id == commentsData.comments[i].comment_id) {
-      commentsData.comments[i].comment_content = reComment.comment_content;
+  commentsData.comments.forEach((comment) => {
+    if (reComment.comment_id === comment.comment_id) {
+      comment.comment_content = reComment.comment_content;
     }
-  }
+  });
 
   fs.writeFileSync(commentsFilePath, JSON.stringify(commentsData));
 }
@@ -74,11 +74,11 @@ function removeComment(deleteComment) {
 
   let commentsData = JSON.parse(commentData);
 
-  for (let i = 0; i < commentsData.comments.length; i++) {
-    if (deleteComment.comment_id == commentsData.comments[i].comment_id) {
-      commentsData.comments[i].deleted_at = deleteComment.deleted_at;
+  commentsData.comments.forEach((comment) => {
+    if (deleteComment.comment_id === comment.comment_id) {
+      comment.deleted_at = deleteComment.deleted_at;
     }
-  }
+  });
 
   fs.writeFileSync(commentsFilePath, JSON.stringify(commentsData));
 }
@@ -88,11 +88,11 @@ function removePost(deletePost) {
 
   let postsData = JSON.parse(postData);
 
-  for (let i = 0; i < postsData.posts.length; i++) {
-    if (deletePost.post_id == postsData.posts[i].post_id) {
-      postsData.posts[i].deleted_at = deletePost.deleted_at;
+  postsData.posts.forEach((post) => {
+    if (deletePost.post_id === post.post_id) {
+      post.deleted_at = deletePost.deleted_at;
     }
-  }
+  });
 
   fs.writeFileSync(postFilePath, JSON.stringify(postsData));
 }

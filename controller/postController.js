@@ -19,6 +19,7 @@ function postList(req, res) {
 }
 
 function postDetail(req, res) {
+  const session = req.session.user.nickname;
   const postNum = req.params.postNum;
 
   const postDetailData = fs.readFileSync(postsFilePath);
@@ -27,10 +28,11 @@ function postDetail(req, res) {
 
   const getPostDetail = postDetails.find((post) => post.post_id == postNum);
 
-  res.json({ getPostDetail });
+  res.json({ getPostDetail, session });
 }
 
 function postComment(req, res) {
+  const session = req.session.user.nickname;
   const postNum = req.params.postNum;
   const commentData = fs.readFileSync(commentsFilePath);
 
@@ -40,7 +42,7 @@ function postComment(req, res) {
     (comment) => comment.post_id == postNum && comment.deleted_at == null //삭제 되지않은 댓글들만 보여주기
   );
 
-  res.json({ getComment });
+  res.json({ getComment, session });
 }
 
 function getPostId() {
@@ -59,20 +61,21 @@ function getPostId() {
 function newPost(req, res) {
   const postId = getPostId();
   const { title, content, file } = req.body;
+
   const newPost = {
     post_id: postId,
     post_title: title,
     post_content: content,
-    nickname: "임맹구",
+    nickname: req.session.user.nickname,
     file_id: file,
-    user_id: 1,
+    user_id: req.session.user.email,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
     deleted_at: null,
     like: 0,
     comment_count: 0,
     hits: 0,
-    profile_image_path: "/image/짱구.jpeg",
+    profile_image_path: req.session.user.profileImage,
   };
 
   writePost(newPost);
@@ -112,13 +115,13 @@ function newComment(req, res) {
     comment_id: getCommentId(),
     comment_content: req.body.comment,
     post_id: postNum,
-    user_id: 1,
-    nickname: "테스트",
+    user_id: req.session.user.email,
+    nickname: req.session.user.nickname,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
     deleted_at: null,
     file_id: 1,
-    profile_image_path: "/image/짱구.jpeg",
+    profile_image_path: req.session.user.profileImage,
   };
 
   writeComment(newComment);

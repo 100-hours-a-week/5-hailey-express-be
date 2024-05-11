@@ -8,6 +8,13 @@ import { modifyUser } from "../model/userModel.js";
 const __dirname = path.resolve();
 const usersFilePath = path.join(__dirname, "data/users.json");
 
+function getUser(req, res) {
+  const userId = req.session.user.userId;
+  const profileImage = req.session.user.profileImage;
+
+  res.json({ userId, profileImage });
+}
+
 function checkEmailDuplicate(req, res) {
   const checkEmail = req.query.email;
 
@@ -60,6 +67,12 @@ function login(req, res) {
   const success = checklogin(email, password);
 
   if (success) {
+    req.session.user = {
+      userId: success.userId,
+      email: email,
+      nickname: success.nickname,
+      profileImage: success.profileImage,
+    };
     res.json({ success: true });
   } else {
     res.json({ success: false });
@@ -96,11 +109,26 @@ function userUpdate(req, res) {
     .json({ message: "회원정보 수정이 성공적으로 완료되었습니다." });
 }
 
+function logout(req, res) {
+  console.log(req.session);
+
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("세션 삭제 중 에러 발생:", err);
+      res.status(500).json({ success: false });
+    } else {
+      res.json({ success: true });
+    }
+  });
+}
+
 export {
+  getUser,
   checkEmailDuplicate,
   checkNicknameDuplicate,
   createUser,
   login,
   userUpdate,
   userList,
+  logout,
 };

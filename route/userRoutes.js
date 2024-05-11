@@ -4,6 +4,8 @@ import multer from "multer";
 const router = express.Router();
 const upload = multer();
 
+router.get("/userInfo", userController.getUser);
+
 router.get("/email/check", userController.checkEmailDuplicate);
 
 router.get("/nickname/check", userController.checkNicknameDuplicate);
@@ -23,5 +25,7 @@ router.patch(
   upload.single("profileImage"),
   userController.userUpdate
 );
+
+router.get("/logout", userController.logout);
 
 export default router;

@@ -110,8 +110,6 @@ function userUpdate(req, res) {
 }
 
 function logout(req, res) {
-  console.log(req.session);
-
   req.session.destroy((err) => {
     if (err) {
       console.error("세션 삭제 중 에러 발생:", err);

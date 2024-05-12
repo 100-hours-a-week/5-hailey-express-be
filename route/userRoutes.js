@@ -16,6 +16,8 @@ router.post(
   userController.createUser
 );
 
+router.get("/logout", userController.logout);
+
 router.post("/login", userController.login);
 
 router.get("/:userId", userController.userList);
@@ -25,7 +27,5 @@ router.patch(
   upload.single("profileImage"),
   userController.userUpdate
 );
-
-router.get("/logout", userController.logout);
 
 export default router;

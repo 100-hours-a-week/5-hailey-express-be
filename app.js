@@ -26,6 +26,17 @@ app.use(
   })
 );
 
+// app.use((req, res, next) => {
+//   console.log(req.session);
+//   console.log(req.session.user);
+//   if (req.session.user == undefined && req.path !== "/api/users/login") {
+//     console.log(req.session);
+//     res.redirect("http://localhost:3000/users/login");
+//   } else {
+//     next();
+//   }
+// });
+
 app.use(bodyParser.json());
 app.use("/api/users", userRoutes);
 app.use("/api", postRoutes);

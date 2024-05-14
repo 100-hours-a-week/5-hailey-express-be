@@ -10,6 +10,17 @@ const __dirname = path.resolve();
 const postsFilePath = path.join(__dirname, "data/posts.json");
 const commentsFilePath = path.join(__dirname, "data/post_comments.json");
 
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  const seconds = date.getSeconds().toString().padStart(2, "0");
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
 function postList(req, res) {
   const postData = fs.readFileSync(postsFilePath);
   const posts = JSON.parse(postData).posts;
@@ -69,8 +80,8 @@ function newPost(req, res) {
     nickname: req.session.user.nickname,
     file_id: file,
     user_id: req.session.user.email,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
+    created_at: formatDate(new Date()),
+    updated_at: formatDate(new Date()),
     deleted_at: null,
     like: 0,
     comment_count: 0,
@@ -92,7 +103,7 @@ function postUpdate(req, res) {
     post_title: title,
     post_content: content,
     file_id: file,
-    updated_at: new Date().toISOString(),
+    updated_at: formatDate(new Date()),
   };
 
   modifyPost(rePost);
@@ -117,8 +128,8 @@ function newComment(req, res) {
     post_id: postNum,
     user_id: req.session.user.email,
     nickname: req.session.user.nickname,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
+    created_at: formatDate(new Date()),
+    updated_at: formatDate(new Date()),
     deleted_at: null,
     file_id: 1,
     profile_image_path: req.session.user.profileImage,
@@ -144,7 +155,7 @@ function commentUpdate(req, res) {
 function commentDelete(req, res) {
   const deleteComment = {
     comment_id: req.body.comment_id,
-    deleted_at: new Date().toISOString(),
+    deleted_at: formatDate(new Date()),
   };
 
   removeComment(deleteComment);
@@ -155,7 +166,7 @@ function commentDelete(req, res) {
 function postDelete(req, res) {
   const deletePost = {
     post_id: req.body.post_id,
-    deleted_at: new Date().toISOString(),
+    deleted_at: formatDate(new Date()),
   };
 
   removePost(deletePost);

@@ -21,21 +21,10 @@ app.use(
   session({
     secret: "secret_key", // 세션을 암호화하기 위한 비밀키
     resave: false, // 변경되지 않은 세션을 다시 저장할 지 여부
-    saveUninitialized: true, // 초기화되지 않은 세션을 저장할 지 여부
-    // cookie: { maxAge: 60 * 1000 },
+    saveUninitialized: false, // 초기화되지 않은 세션을 저장할 지 여부
+    cookie: { secure: false, httpOnly: true, maxAge: 3600000 }, // 쿠키 설정
   })
 );
-
-// app.use((req, res, next) => {
-//   console.log(req.session);
-//   console.log(req.session.user);
-//   if (req.session.user == undefined && req.path !== "/api/users/login") {
-//     console.log(req.session);
-//     res.redirect("http://localhost:3000/users/login");
-//   } else {
-//     next();
-//   }
-// });
 
 app.use(bodyParser.json());
 app.use("/api/users", userRoutes);

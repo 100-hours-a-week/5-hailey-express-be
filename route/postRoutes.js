@@ -4,17 +4,34 @@ import multer from "multer";
 const router = express.Router();
 const upload = multer();
 
-router.get("/posts", postController.postList);
+function isAuthenticated(req, res, next) {
+  if (req.session.user == undefined) {
+    return res.json({ success: false });
+  }
+  next();
+}
 
-router.get("/posts/:postNum", postController.postDetail);
+router.get("/posts", isAuthenticated, postController.postList);
 
-router.get("/posts/:postNum/comments", postController.postComment);
+router.get("/posts/:postNum", isAuthenticated, postController.postDetail);
 
-router.post("/post/new", upload.single("file"), postController.newPost);
+router.get(
+  "/posts/:postNum/comments",
+  isAuthenticated,
+  postController.postComment
+);
+
+router.post(
+  "/post/new",
+  upload.single("file"),
+  isAuthenticated,
+  postController.newPost
+);
 
 router.patch(
   "/posts/:postNum/update",
   upload.single("file"),
+  isAuthenticated,
   postController.postUpdate
 );
 

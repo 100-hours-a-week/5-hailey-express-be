@@ -4,7 +4,14 @@ import multer from "multer";
 const router = express.Router();
 const upload = multer();
 
-router.get("/userInfo", userController.getUser);
+function isAuthenticated(req, res, next) {
+  if (req.session.user == undefined) {
+    return res.json({ success: false });
+  }
+  next();
+}
+
+router.get("/userInfo", isAuthenticated, userController.getUser);
 
 router.get("/email/check", userController.checkEmailDuplicate);
 
@@ -20,11 +27,12 @@ router.get("/logout", userController.logout);
 
 router.post("/login", userController.login);
 
-router.get("/:userId", userController.userList);
+router.get("/:userId", isAuthenticated, userController.userList);
 
 router.patch(
   "/:userId/update",
   upload.single("profileImage"),
+  isAuthenticated,
   userController.userUpdate
 );
 

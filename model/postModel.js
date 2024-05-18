@@ -1,6 +1,7 @@
-import fs from "fs";
-import path from "path";
-const __dirname = path.resolve();
+const fs = require("fs");
+const path = require("path");
+
+// const __dirname = path.resolve();
 const postFilePath = path.join(__dirname, "data/posts.json");
 const commentsFilePath = path.join(__dirname, "data/post_comments.json");
 
@@ -97,7 +98,7 @@ function removePost(deletePost) {
   fs.writeFileSync(postFilePath, JSON.stringify(postsData));
 }
 
-export {
+module.exports = {
   writePost,
   modifyPost,
   writeComment,

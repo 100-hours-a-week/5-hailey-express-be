@@ -1,12 +1,15 @@
-import fs from "fs";
-import path from "path";
-import { isDuplicateEmail } from "../model/userModel.js";
-import { isDuplicateNickname } from "../model/userModel.js";
-import { addUser } from "../model/userModel.js";
-import { checklogin } from "../model/userModel.js";
-import { modifyUser } from "../model/userModel.js";
-const __dirname = path.resolve();
-const usersFilePath = path.join(__dirname, "data/users.json");
+const fs = require("fs");
+const path = require("path");
+const {
+  isDuplicateEmail,
+  isDuplicateNickname,
+  addUser,
+  checklogin,
+  modifyUser,
+} = require("../model/userModel.js");
+
+// const __dirname = path.resolve();
+const usersFilePath = path.join(__dirname, "../model/data/users.json");
 
 function formatDate(date) {
   const year = date.getFullYear();
@@ -131,7 +134,7 @@ function logout(req, res) {
   });
 }
 
-export {
+module.exports = {
   getUser,
   checkEmailDuplicate,
   checkNicknameDuplicate,

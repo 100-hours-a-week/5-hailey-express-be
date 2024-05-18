@@ -1,6 +1,7 @@
-import fs from "fs";
-import path from "path";
-const __dirname = path.resolve();
+const fs = require("fs");
+const path = require("path");
+
+// const __dirname = path.resolve();
 const usersFilePath = path.join(__dirname, "data/users.json");
 
 // const usersFilePath = new URL("../data/users.json", import.meta.url).pathname;
@@ -98,7 +99,7 @@ function modifyUser(reUser) {
   fs.writeFileSync(usersFilePath, JSON.stringify(usersData));
 }
 
-export {
+module.exports = {
   isDuplicateEmail,
   isDuplicateNickname,
   addUser,

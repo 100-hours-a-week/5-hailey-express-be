@@ -1,6 +1,6 @@
-import express from "express";
-import * as userController from "../controller/userController.js";
-import multer from "multer";
+const express = require("express");
+const userController = require("../controller/userController.js");
+const multer = require("multer");
 const router = express.Router();
 const upload = multer();
 
@@ -36,4 +36,4 @@ router.patch(
   userController.userUpdate
 );
 
-export default router;
+module.exports = router;

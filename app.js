@@ -1,10 +1,10 @@
-import express from "express";
-import cors from "cors";
-import userRoutes from "./route/userRoutes.js";
-import postRoutes from "./route/postRoutes.js";
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import session from "express-session";
+const express = require("express");
+const cors = require("cors");
+const userRoutes = require("./route/userRoutes.js");
+const postRoutes = require("./route/postRoutes.js");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
 
 const app = express();
 const port = 3001;

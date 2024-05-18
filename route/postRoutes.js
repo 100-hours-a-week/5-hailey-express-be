@@ -1,6 +1,6 @@
-import express from "express";
-import * as postController from "../controller/postController.js";
-import multer from "multer";
+const express = require("express");
+const postController = require("../controller/postController.js");
+const multer = require("multer");
 const router = express.Router();
 const upload = multer();
 
@@ -59,4 +59,4 @@ router.patch(
   postController.postDelete
 );
 
-export default router;
+module.exports = router;

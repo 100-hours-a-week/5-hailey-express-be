@@ -1,14 +1,20 @@
-import fs from "fs";
-import path from "path";
-import { writePost } from "../model/postModel.js";
-import { modifyPost } from "../model/postModel.js";
-import { writeComment } from "../model/postModel.js";
-import { modifyComment } from "../model/postModel.js";
-import { removeComment } from "../model/postModel.js";
-import { removePost } from "../model/postModel.js";
-const __dirname = path.resolve();
-const postsFilePath = path.join(__dirname, "data/posts.json");
-const commentsFilePath = path.join(__dirname, "data/post_comments.json");
+const fs = require("fs");
+const path = require("path");
+const {
+  writePost,
+  modifyPost,
+  writeComment,
+  modifyComment,
+  removeComment,
+  removePost,
+} = require("../model/postModel.js");
+
+// const __dirname = path.resolve();
+const postsFilePath = path.join(__dirname, "../model/data/posts.json");
+const commentsFilePath = path.join(
+  __dirname,
+  "../model/data/post_comments.json"
+);
 
 function formatDate(date) {
   const year = date.getFullYear();
@@ -174,7 +180,7 @@ function postDelete(req, res) {
   res.status(200).json({ message: "게시글 삭제가 성공적으로 완료되었습니다." });
 }
 
-export {
+module.exports = {
   postList,
   postDetail,
   postComment,
